@@ -5,4 +5,4 @@
 <br />
 
 First final project of Internet Engineering Course. 
-Building an **Http Endpoint Monitoring** service with **Golang** and **Redis**.
+Building a **Http Endpoint Monitoring** service with **Golang** and **Redis**.
