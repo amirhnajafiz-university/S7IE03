@@ -13,8 +13,16 @@ var (
 )
 
 type Auth struct {
-	Key    string
-	Expire int
+	key    string
+	expire int
+}
+
+// New builds a new auth struct for handling JWT tokens.
+func New(cfg Config) *Auth {
+	return &Auth{
+		key:    cfg.PrivateKey,
+		expire: cfg.ExpireTime,
+	}
 }
 
 // GenerateJWT creates a new JWT token.
@@ -24,12 +32,12 @@ func (a *Auth) GenerateJWT(username string, password string) (string, error) {
 
 	// create claims
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Duration(a.Expire) * time.Minute)
+	claims["exp"] = time.Now().Add(time.Duration(a.expire) * time.Minute)
 	claims["username"] = username
 	claims["password"] = password
 
 	// generate token string
-	tokenString, err := token.SignedString(a.Key)
+	tokenString, err := token.SignedString(a.key)
 	if err != nil {
 		return "", err
 	}
@@ -44,7 +52,7 @@ func (a *Auth) ParseJWT(tokenString string) (string, string, error) {
 			return "", errSigningMethod
 		}
 
-		return a.Key, nil
+		return a.key, nil
 	})
 	if err != nil {
 		return "", "", err
