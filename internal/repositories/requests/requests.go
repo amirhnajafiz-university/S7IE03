@@ -5,6 +5,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+// Repository manages the requests models.
 type Repository interface {
 	GetAll(url string) []model.Request
 	Insert(request model.Request) error
