@@ -3,12 +3,22 @@ package worker
 import (
 	"time"
 
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/ceit-aut/policeman/internal/repositories"
 )
 
+// Worker handles to check endpoints to monitor them
+// and updates it status.
 type Worker struct {
-	db      *mongo.Database
-	timeout int
+	repositories repositories.Repositories
+	timeout      int
+}
+
+// New builds a new repositories' struct.
+func New(r repositories.Repositories, timeout int) *Worker {
+	return &Worker{
+		repositories: r,
+		timeout:      timeout,
+	}
 }
 
 // Start worker for monitoring endpoints.
