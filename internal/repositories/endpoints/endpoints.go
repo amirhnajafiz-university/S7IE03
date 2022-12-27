@@ -40,9 +40,9 @@ func (r *repository) GetAll() []model.Endpoint {
 		collection = r.db.Collection(collectionName)
 	)
 
-	if cursor, err := collection.Find(ctx, filter); err != nil {
+	if cursor, err := collection.Find(ctx, filter); err == nil {
 		for cursor.Next(ctx) {
-			if er := cursor.Decode(&endpoint); er != nil {
+			if er := cursor.Decode(&endpoint); er == nil {
 				endpoints = append(endpoints, endpoint)
 			}
 		}
@@ -53,7 +53,20 @@ func (r *repository) GetAll() []model.Endpoint {
 
 // GetSingle endpoint by username as primary key.
 func (r *repository) GetSingle(username string) *model.Endpoint {
-	return nil
+	var (
+		endpoint model.Endpoint
+
+		ctx    = context.Background()
+		filter = bson.M{"username": username}
+
+		collection = r.db.Collection(collectionName)
+	)
+
+	if err := collection.FindOne(ctx, filter).Decode(&endpoint); err != nil {
+		return nil
+	}
+
+	return &endpoint
 }
 
 // Upsert update or insert and endpoint.
