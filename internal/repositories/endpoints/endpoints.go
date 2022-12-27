@@ -71,5 +71,14 @@ func (r *repository) GetSingle(username string) *model.Endpoint {
 
 // Upsert update or insert and endpoint.
 func (r *repository) Upsert(endpoint model.Endpoint) error {
-	return nil
+	var (
+		ctx    = context.Background()
+		filter = bson.M{"username": endpoint.Username}
+
+		collection = r.db.Collection(collectionName)
+	)
+
+	_, err := collection.UpdateOne(ctx, filter, endpoint)
+
+	return err
 }
