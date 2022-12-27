@@ -1,9 +1,14 @@
 package endpoints
 
 import (
+	"context"
+
 	"github.com/ceit-aut/policeman/internal/model"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
+
+const collectionName = "endpoints"
 
 // Repository manages the endpoints models.
 type Repository interface {
@@ -25,7 +30,25 @@ func New(db *mongo.Database) Repository {
 
 // GetAll endpoints.
 func (r *repository) GetAll() []model.Endpoint {
-	return nil
+	var (
+		endpoints []model.Endpoint
+		endpoint  model.Endpoint
+
+		ctx    = context.Background()
+		filter = bson.D{}
+
+		collection = r.db.Collection(collectionName)
+	)
+
+	if cursor, err := collection.Find(ctx, filter); err != nil {
+		for cursor.Next(ctx) {
+			if er := cursor.Decode(&endpoint); er != nil {
+				endpoints = append(endpoints, endpoint)
+			}
+		}
+	}
+
+	return endpoints
 }
 
 // GetSingle endpoint by username as primary key.
