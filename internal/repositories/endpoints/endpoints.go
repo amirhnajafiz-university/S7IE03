@@ -13,8 +13,8 @@ const collectionName = "endpoints"
 // Repository manages the endpoints models.
 type Repository interface {
 	GetAll() []model.Endpoint
-	GetSingle(username string) []model.Endpoint
-	Upsert(endpoint model.Endpoint) error
+	GetSingle(string) []model.Endpoint
+	Upsert(model.Endpoint) error
 }
 
 type repository struct {
