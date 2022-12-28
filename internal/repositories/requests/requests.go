@@ -12,9 +12,9 @@ const collectionName = "requests"
 
 // Repository manages the requests models.
 type Repository interface {
-	GetAll(string) []model.Request
-	Insert(model.Request) error
-	Delete(string) error
+	GetAll(id string) []model.Request
+	Insert(request model.Request) error
+	Delete(id string) error
 }
 
 type repository struct {

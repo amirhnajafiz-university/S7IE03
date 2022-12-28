@@ -12,9 +12,9 @@ const collectionName = "users"
 
 // Repository manages the users models.
 type Repository interface {
-	Exists(string) bool
-	GetSingle(string) *model.User
-	Insert(model.User) error
+	Exists(username string) bool
+	GetSingle(username string) *model.User
+	Insert(user model.User) error
 }
 
 type repository struct {

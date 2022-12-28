@@ -13,11 +13,11 @@ const collectionName = "endpoints"
 // Repository manages the endpoints models.
 type Repository interface {
 	GetAll() []model.Endpoint
-	GetUserEndpoints(string) []model.Endpoint
-	GetSingle(string) *model.Endpoint
-	Insert(model.Endpoint) (string, error)
-	Update(model.Endpoint) error
-	Delete(string) error
+	GetUserEndpoints(username string) []model.Endpoint
+	GetSingle(id string) *model.Endpoint
+	Insert(endpoint model.Endpoint) (string, error)
+	Update(endpoint model.Endpoint) error
+	Delete(id string) error
 }
 
 type repository struct {
