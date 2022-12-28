@@ -25,7 +25,8 @@ func (h *Handler) Health(ctx *fiber.Ctx) error {
 func (h *Handler) CreateRoutes(app fiber.Router) {
 	// creating middleware
 	mid := middleware.Middleware{
-		Auth: h.JWT,
+		Repositories: h.Repositories,
+		Auth:         h.JWT,
 	}
 
 	// status route
