@@ -2,7 +2,6 @@ package endpoints
 
 import (
 	"context"
-
 	"github.com/ceit-aut/policeman/internal/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,7 +14,8 @@ type Repository interface {
 	GetAll() []model.Endpoint
 	GetUserEndpoints(string) []model.Endpoint
 	GetSingle(string) *model.Endpoint
-	Upsert(model.Endpoint) (string, error)
+	Insert(model.Endpoint) (string, error)
+	Update(model.Endpoint) error
 }
 
 type repository struct {
@@ -93,16 +93,18 @@ func (r *repository) GetSingle(id string) *model.Endpoint {
 	return &endpoint
 }
 
-// Upsert update or insert and endpoint.
-func (r *repository) Upsert(endpoint model.Endpoint) (string, error) {
+// Update on endpoint.
+func (r *repository) Update(endpoint model.Endpoint) error {
 	var (
-		ctx    = context.Background()
+		ctx = context.Background()
+
 		filter = bson.M{"_id": endpoint.ID}
+		update = bson.D{{"$set", bson.D{{"failedTimes", endpoint.FailedTimes}}}}
 
 		collection = r.db.Collection(collectionName)
 	)
 
-	res, err := collection.UpdateOne(ctx, filter, endpoint)
+	_, err := collection.UpdateOne(ctx, filter, update)
 
-	return res.UpsertedID.(string), err
+	return err
 }
