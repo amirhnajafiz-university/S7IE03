@@ -15,7 +15,7 @@ type Repository interface {
 	GetAll() []model.Endpoint
 	GetUserEndpoints(string) []model.Endpoint
 	GetSingle(string) *model.Endpoint
-	Upsert(model.Endpoint) error
+	Upsert(model.Endpoint) (string, error)
 }
 
 type repository struct {
@@ -94,7 +94,7 @@ func (r *repository) GetSingle(id string) *model.Endpoint {
 }
 
 // Upsert update or insert and endpoint.
-func (r *repository) Upsert(endpoint model.Endpoint) error {
+func (r *repository) Upsert(endpoint model.Endpoint) (string, error) {
 	var (
 		ctx    = context.Background()
 		filter = bson.M{"_id": endpoint.ID}
@@ -102,7 +102,7 @@ func (r *repository) Upsert(endpoint model.Endpoint) error {
 		collection = r.db.Collection(collectionName)
 	)
 
-	_, err := collection.UpdateOne(ctx, filter, endpoint)
+	res, err := collection.UpdateOne(ctx, filter, endpoint)
 
-	return err
+	return res.UpsertedID.(string), err
 }

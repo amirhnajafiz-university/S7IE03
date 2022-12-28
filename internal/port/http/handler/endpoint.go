@@ -3,7 +3,6 @@ package handler
 import (
 	"errors"
 	"log"
-	"net/http"
 	"time"
 
 	"github.com/ceit-aut/policeman/internal/model"
@@ -24,7 +23,10 @@ var (
 // takes a endpoint info request.
 func (h *Handler) RegisterEndpoint(ctx *fiber.Ctx) error {
 	// create a user request
-	var userReq request.EndpointInfo
+	var (
+		id      string
+		userReq request.EndpointInfo
+	)
 
 	// parse user request
 	if err := ctx.BodyParser(&userReq); err != nil {
@@ -48,13 +50,14 @@ func (h *Handler) RegisterEndpoint(ctx *fiber.Ctx) error {
 	}
 
 	// save endpoint into database
-	if err := h.Repositories.Endpoints.Upsert(e); err != nil {
+	id, err := h.Repositories.Endpoints.Upsert(e)
+	if err != nil {
 		log.Println(err)
 
 		return errSaveEndpoint
 	}
 
-	return ctx.SendStatus(http.StatusOK)
+	return ctx.SendString(id)
 }
 
 // GetAllEndpoints for a user.
