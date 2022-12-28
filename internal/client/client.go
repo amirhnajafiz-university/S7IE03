@@ -2,6 +2,7 @@ package client
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/ceit-aut/policeman/internal/model"
 )
@@ -10,7 +11,8 @@ import (
 func MakeHTTPRequest(endpoint model.Endpoint) (*model.Request, error) {
 	// create a new http request
 	req := &model.Request{
-		Url: endpoint.Url,
+		EndpointId: endpoint.ID.String(),
+		CreateTime: time.Now(),
 	}
 
 	// make http request
