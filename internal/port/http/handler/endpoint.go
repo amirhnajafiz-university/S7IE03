@@ -68,6 +68,7 @@ func (h *Handler) GetAllEndpoints(ctx *fiber.Ctx) error {
 	// create responses
 	for _, item := range list {
 		er := response.EndpointResponse{
+			Id:        item.ID.String(),
 			Address:   item.Url,
 			CreatedAt: item.CreateTime,
 		}
