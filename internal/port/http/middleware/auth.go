@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,6 +17,8 @@ func (m *Middleware) Authentication(ctx *fiber.Ctx) error {
 
 			return ctx.Next()
 		} else {
+			log.Println(err)
+
 			// 401
 			return ctx.SendStatus(http.StatusUnauthorized)
 		}

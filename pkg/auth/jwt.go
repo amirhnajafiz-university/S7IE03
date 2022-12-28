@@ -33,7 +33,7 @@ func (a *Auth) GenerateJWT(username string, password string) (string, time.Time,
 
 	// create claims
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = expireTime
+	claims["exp"] = expireTime.Unix()
 	claims["username"] = username
 	claims["password"] = password
 
@@ -49,11 +49,11 @@ func (a *Auth) GenerateJWT(username string, password string) (string, time.Time,
 // ParseJWT gets a token string and extracts the data.
 func (a *Auth) ParseJWT(tokenString string) (string, string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodECDSA); !ok {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return "", errSigningMethod
 		}
 
-		return a.key, nil
+		return []byte(a.key), nil
 	})
 	if err != nil {
 		return "", "", err
