@@ -17,6 +17,7 @@ type Repository interface {
 	GetSingle(string) *model.Endpoint
 	Insert(model.Endpoint) (string, error)
 	Update(model.Endpoint) error
+	Delete(string) error
 }
 
 type repository struct {
@@ -125,6 +126,23 @@ func (r *repository) Update(endpoint model.Endpoint) error {
 	)
 
 	_, err := collection.UpdateOne(ctx, filter, update)
+
+	return err
+}
+
+// Delete an endpoint.
+func (r *repository) Delete(id string) error {
+	// create hex form of object id
+	objectId, _ := primitive.ObjectIDFromHex(id)
+
+	var (
+		ctx    = context.Background()
+		filter = bson.M{"_id": objectId}
+
+		collection = r.db.Collection(collectionName)
+	)
+
+	_, err := collection.DeleteOne(ctx, filter)
 
 	return err
 }

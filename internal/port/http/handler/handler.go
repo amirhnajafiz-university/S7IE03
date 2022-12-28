@@ -48,5 +48,5 @@ func (h *Handler) CreateRoutes(app fiber.Router) {
 
 	v1.Get("/", h.GetEndpointStatus)
 	v1.Get("/warnings", h.GetEndpointWarnings)
-	v1.Delete("/")
+	v1.Delete("/", h.RemoveUserEndpoint)
 }
