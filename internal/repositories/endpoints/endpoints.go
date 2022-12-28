@@ -13,7 +13,8 @@ const collectionName = "endpoints"
 // Repository manages the endpoints models.
 type Repository interface {
 	GetAll() []model.Endpoint
-	GetSingle(string) []model.Endpoint
+	GetUserEndpoints(string) []model.Endpoint
+	GetSingle(string) *model.Endpoint
 	Upsert(model.Endpoint) error
 }
 
@@ -51,8 +52,8 @@ func (r *repository) GetAll() []model.Endpoint {
 	return endpoints
 }
 
-// GetSingle person endpoints by username as primary key.
-func (r *repository) GetSingle(username string) []model.Endpoint {
+// GetUserEndpoints person endpoints by username as primary key.
+func (r *repository) GetUserEndpoints(username string) []model.Endpoint {
 	var (
 		endpoints []model.Endpoint
 		endpoint  model.Endpoint
@@ -74,11 +75,29 @@ func (r *repository) GetSingle(username string) []model.Endpoint {
 	return endpoints
 }
 
+// GetSingle returns one endpoint.
+func (r *repository) GetSingle(id string) *model.Endpoint {
+	var (
+		endpoint model.Endpoint
+
+		ctx    = context.Background()
+		filter = bson.M{"_id": id}
+
+		collection = r.db.Collection(collectionName)
+	)
+
+	if err := collection.FindOne(ctx, filter).Decode(&endpoint); err != nil {
+		return nil
+	}
+
+	return &endpoint
+}
+
 // Upsert update or insert and endpoint.
 func (r *repository) Upsert(endpoint model.Endpoint) error {
 	var (
 		ctx    = context.Background()
-		filter = bson.M{"username": endpoint.Username}
+		filter = bson.M{"_id": endpoint.ID}
 
 		collection = r.db.Collection(collectionName)
 	)

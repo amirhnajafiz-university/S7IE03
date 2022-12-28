@@ -28,13 +28,13 @@ func New(db *mongo.Database) Repository {
 }
 
 // GetAll requests of an endpoint.
-func (r *repository) GetAll(url string) []model.Request {
+func (r *repository) GetAll(id string) []model.Request {
 	var (
 		requests []model.Request
 		request  model.Request
 
 		ctx    = context.Background()
-		filter = bson.M{"url": url}
+		filter = bson.M{"endpoint_id": id}
 
 		collection = r.db.Collection(collectionName)
 	)
