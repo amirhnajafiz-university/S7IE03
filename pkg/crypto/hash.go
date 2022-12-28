@@ -23,5 +23,5 @@ func HashData(data string) (string, error) {
 
 // IsEqual checks the equality of hash value to its origin.
 func IsEqual(data string, hash string) bool {
-	return bcrypt.CompareHashAndPassword([]byte(data), []byte(hash)) == nil
+	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(data)) == nil
 }
