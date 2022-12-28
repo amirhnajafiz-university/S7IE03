@@ -1,13 +1,56 @@
 package handler
 
 import (
+	"errors"
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/ceit-aut/policeman/internal/model"
+	"github.com/ceit-aut/policeman/internal/port/http/request"
 	"github.com/gofiber/fiber/v2"
+)
+
+var (
+	errEmptyAddress = errors.New("address cannot be empty")
+	errSaveEndpoint = errors.New("failed to save endpoint")
 )
 
 // RegisterEndpoint will add an endpoint to application.
 // takes a endpoint info request.
 func (h *Handler) RegisterEndpoint(ctx *fiber.Ctx) error {
-	return nil
+	// create a user request
+	var userReq request.EndpointInfo
+
+	// parse user request
+	if err := ctx.BodyParser(&userReq); err != nil {
+		log.Println(err)
+
+		return errParsingFailed
+	}
+
+	// check address
+	if userReq.Address == "" {
+		return errEmptyAddress
+	}
+
+	// creating a new endpoint model
+	e := model.Endpoint{
+		Username:    ctx.Locals("username").(string),
+		Url:         userReq.Address,
+		Threshold:   h.Threshold,
+		FailedTimes: 0,
+		CreateTime:  time.Now(),
+	}
+
+	// save endpoint into database
+	if err := h.Repositories.Endpoints.Upsert(e); err != nil {
+		log.Println(err)
+
+		return errSaveEndpoint
+	}
+
+	return ctx.SendStatus(http.StatusOK)
 }
 
 // GetAllEndpoints for a user.
