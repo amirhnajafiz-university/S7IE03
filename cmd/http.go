@@ -8,6 +8,7 @@ import (
 	"github.com/ceit-aut/policeman/internal/repositories"
 	"github.com/ceit-aut/policeman/pkg/auth"
 	"github.com/gofiber/fiber/v2"
+	"github.com/spf13/cobra"
 )
 
 type HTTP struct {
@@ -16,8 +17,9 @@ type HTTP struct {
 	Repositories repositories.Repositories
 }
 
-func (h *HTTP) Command() {
-
+func (h *HTTP) Command() *cobra.Command {
+	run := func(_ *cobra.Command, _ []string) { h.main() }
+	return &cobra.Command{Use: "http", Short: "start http server", Run: run}
 }
 
 func (h *HTTP) main() {

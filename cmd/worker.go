@@ -5,6 +5,7 @@ import (
 
 	"github.com/ceit-aut/policeman/internal/repositories"
 	"github.com/ceit-aut/policeman/internal/worker"
+	"github.com/spf13/cobra"
 )
 
 type Worker struct {
@@ -12,8 +13,9 @@ type Worker struct {
 	Repositories repositories.Repositories
 }
 
-func (w *Worker) Command() {
-
+func (w *Worker) Command() *cobra.Command {
+	run := func(_ *cobra.Command, _ []string) { w.main() }
+	return &cobra.Command{Use: "worker", Short: "start worker to monitor endpoints", Run: run}
 }
 
 func (w *Worker) main() {
