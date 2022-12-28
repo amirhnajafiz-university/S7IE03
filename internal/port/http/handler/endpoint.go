@@ -98,5 +98,13 @@ func (h *Handler) GetEndpointStatus(ctx *fiber.Ctx) error {
 
 // GetEndpointWarnings will return all the warnings for an endpoint.
 func (h *Handler) GetEndpointWarnings(ctx *fiber.Ctx) error {
+	// create warning response
+	wr := response.Warning{
+		Address: ctx.Params("address"),
+	}
+
+	// get endpoint
+	ep := h.Repositories.Endpoints.GetSingle("")
+
 	return nil
 }
