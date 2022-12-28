@@ -1,13 +1,63 @@
 package handler
 
 import (
+	"errors"
+	"log"
+	"net/http"
+
+	"github.com/ceit-aut/policeman/internal/model"
+	"github.com/ceit-aut/policeman/internal/port/http/request"
+	"github.com/ceit-aut/policeman/pkg/crypto"
 	"github.com/gofiber/fiber/v2"
+)
+
+var (
+	errParsingFailed     = errors.New("cannot parse request body")
+	errUserAlreadyExists = errors.New("username is already exists")
+	errHashPassword      = errors.New("failed to hash your password")
+	errSaveUser          = errors.New("failed to save user")
 )
 
 // Register a user inside application.
 // takes a user info request.
 func (h *Handler) Register(ctx *fiber.Ctx) error {
-	return nil
+	// create a user request
+	var userReq request.UserInfo
+
+	// parse user request body
+	if err := ctx.BodyParser(&userReq); err != nil {
+		log.Println(err)
+
+		return errParsingFailed
+	}
+
+	// check username exists
+	if h.Repositories.Users.Exists(userReq.Username) {
+		return errUserAlreadyExists
+	}
+
+	// hash user password
+	hp, er := crypto.HashData(userReq.Password)
+	if er != nil {
+		log.Println(er)
+
+		return errHashPassword
+	}
+
+	// create a user model
+	u := model.User{
+		Username: userReq.Username,
+		Password: hp,
+	}
+
+	// save user
+	if err := h.Repositories.Users.Insert(u); err != nil {
+		log.Println(err)
+
+		return errSaveUser
+	}
+
+	return ctx.SendStatus(http.StatusOK)
 }
 
 // Login a user by return a token.

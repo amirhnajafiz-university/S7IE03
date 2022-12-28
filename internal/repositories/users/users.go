@@ -30,7 +30,7 @@ func New(db *mongo.Database) Repository {
 
 // Exists check to see if user exists before.
 func (r *repository) Exists(username string) bool {
-	return r.GetSingle(username) == nil
+	return r.GetSingle(username) != nil
 }
 
 // GetSingle user by username.
