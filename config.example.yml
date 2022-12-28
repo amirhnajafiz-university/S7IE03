@@ -1,0 +1,18 @@
+http_port: 8080
+
+threshold: 20
+
+user_endpoints: 20
+
+jwt:
+  private_key: "my super secret key"
+  expire_time: 30
+
+mongodb:
+  database: "policeman"
+  host: "localhost"
+  port: 27017
+
+worker:
+  timeout: 2
+  workers: 5
