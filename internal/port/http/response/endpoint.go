@@ -5,9 +5,8 @@ import (
 )
 
 type EndpointResponse struct {
-	Address   string            `json:"address"`
-	CreatedAt time.Time         `json:"created_at"`
-	Requests  []EndpointRequest `json:"requests"`
+	Address   string    `json:"address"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 type EndpointRequest struct {

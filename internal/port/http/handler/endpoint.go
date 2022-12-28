@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"github.com/ceit-aut/policeman/internal/port/http/response"
 	"log"
 	"net/http"
 	"time"
@@ -55,6 +56,13 @@ func (h *Handler) RegisterEndpoint(ctx *fiber.Ctx) error {
 
 // GetAllEndpoints for a user.
 func (h *Handler) GetAllEndpoints(ctx *fiber.Ctx) error {
+	// create endpoints list
+	var endpoints []response.EndpointResponse
+
+	list, err := h.Repositories.Endpoints.GetAll() {
+
+	}
+
 	return nil
 }
 
