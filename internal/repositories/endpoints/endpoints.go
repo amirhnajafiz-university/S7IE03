@@ -93,6 +93,19 @@ func (r *repository) GetSingle(id string) *model.Endpoint {
 	return &endpoint
 }
 
+// Insert an endpoint.
+func (r *repository) Insert(endpoint model.Endpoint) (string, error) {
+	var (
+		ctx = context.Background()
+
+		collection = r.db.Collection(collectionName)
+	)
+
+	res, err := collection.InsertOne(ctx, endpoint)
+
+	return res.InsertedID.(string), err
+}
+
 // Update on endpoint.
 func (r *repository) Update(endpoint model.Endpoint) error {
 	var (
