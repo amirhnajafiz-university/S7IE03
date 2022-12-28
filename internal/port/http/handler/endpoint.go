@@ -77,7 +77,23 @@ func (h *Handler) GetAllEndpoints(ctx *fiber.Ctx) error {
 
 // GetEndpointStatus will return one endpoint status.
 func (h *Handler) GetEndpointStatus(ctx *fiber.Ctx) error {
-	return nil
+	// create list of requests
+	var requests []response.EndpointRequest
+
+	// get one endpoint requests
+	list := h.Repositories.Requests.GetAll(ctx.Params("address"))
+
+	// generate requests response
+	for _, item := range list {
+		er := response.EndpointRequest{
+			Status: item.Code,
+			Time:   item.CreateTime,
+		}
+
+		requests = append(requests, er)
+	}
+
+	return ctx.JSON(requests)
 }
 
 // GetEndpointWarnings will return all the warnings for an endpoint.
