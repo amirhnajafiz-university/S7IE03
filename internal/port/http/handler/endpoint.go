@@ -140,5 +140,9 @@ func (h *Handler) RemoveUserEndpoint(ctx *fiber.Ctx) error {
 		return errRemoveEndpoint
 	}
 
+	go func() {
+		_ = h.Repositories.Requests.Delete(ctx.Locals("id").(string))
+	}()
+
 	return ctx.SendStatus(http.StatusNoContent)
 }
