@@ -12,8 +12,9 @@ import (
 )
 
 var (
-	errEmptyAddress = errors.New("address cannot be empty")
-	errSaveEndpoint = errors.New("failed to save endpoint")
+	errMaximumEndpoints = errors.New("you have reached the maximum number of endpoints")
+	errEmptyAddress     = errors.New("address cannot be empty")
+	errSaveEndpoint     = errors.New("failed to save endpoint")
 
 	warningMessage = "this endpoint has a lot of errors!"
 	allGoodMessage = "this endpoint is fine."
@@ -22,6 +23,12 @@ var (
 // RegisterEndpoint will add an endpoint to application.
 // takes a endpoint info request.
 func (h *Handler) RegisterEndpoint(ctx *fiber.Ctx) error {
+	// get all endpoints to find the length
+	eps := h.Repositories.Endpoints.GetUserEndpoints(ctx.Locals("username").(string))
+	if len(eps) > h.Limit {
+		return errMaximumEndpoints
+	}
+
 	// create a user request
 	var (
 		id      string

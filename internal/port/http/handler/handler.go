@@ -13,6 +13,7 @@ type Handler struct {
 	JWT          auth.Auth
 	Repositories repositories.Repositories
 	Threshold    int
+	Limit        int
 }
 
 // Health will return the status of application.
