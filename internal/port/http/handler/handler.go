@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/ceit-aut/policeman/internal/port/http/middleware"
 	"github.com/ceit-aut/policeman/internal/repositories"
 	"github.com/ceit-aut/policeman/pkg/auth"
@@ -13,6 +15,11 @@ type Handler struct {
 	Threshold    int
 }
 
+// Health will return the status of application.
+func (h *Handler) Health(ctx *fiber.Ctx) error {
+	return ctx.SendStatus(http.StatusOK)
+}
+
 // CreateRoutes will generate endpoints of application
 func (h *Handler) CreateRoutes(app *fiber.Group, cfg auth.Config) {
 	// creating middleware
@@ -20,13 +27,16 @@ func (h *Handler) CreateRoutes(app *fiber.Group, cfg auth.Config) {
 		Auth: auth.New(cfg),
 	}
 
-	// user endpoints
+	// status route
+	app.Get("/hlz", h.Health)
+
+	// user routes
 	app.Post("/api/register", h.Register)
 	app.Post("/api/login", h.Login)
 
 	app.Use(mid.Authentication)
 
-	// endpoints endpoints
+	// endpoints routes
 	app.Post("/api/endpoints", h.RegisterEndpoint)
 	app.Get("/api/endpoints", h.GetAllEndpoints)
 
