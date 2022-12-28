@@ -41,8 +41,10 @@ func (h *Handler) CreateRoutes(app fiber.Router) {
 	app.Post("/endpoints", h.RegisterEndpoint)
 	app.Get("/endpoints", h.GetAllEndpoints)
 
-	app.Use(mid.UserEndpoint)
+	v1 := app.Group("/endpoint/:id")
 
-	app.Get("/endpoint/:id", h.GetEndpointStatus)
-	app.Get("/endpoint/:id/warnings", h.GetEndpointWarnings)
+	v1.Use(mid.UserEndpoint)
+
+	v1.Get("/", h.GetEndpointStatus)
+	v1.Get("/warnings", h.GetEndpointWarnings)
 }
