@@ -13,7 +13,7 @@ import (
 func NewConnection(cfg Config) (*mongo.Database, error) {
 	// mongodb server options
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
-	mongoURI := fmt.Sprintf("mongo://%s:%d", cfg.Host, cfg.Port)
+	mongoURI := fmt.Sprintf("mongodb://%s:%d", cfg.Host, cfg.Port)
 
 	clientOptions := options.Client().
 		ApplyURI(mongoURI).
