@@ -129,3 +129,8 @@ func (h *Handler) GetEndpointWarnings(ctx *fiber.Ctx) error {
 
 	return ctx.JSON(wr)
 }
+
+// RemoveUserEndpoint will remove and endpoint.
+func (h *Handler) RemoveUserEndpoint(ctx *fiber.Ctx) error {
+	return nil
+}
