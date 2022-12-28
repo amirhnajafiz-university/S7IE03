@@ -26,23 +26,24 @@ func New(cfg Config) *Auth {
 }
 
 // GenerateJWT creates a new JWT token.
-func (a *Auth) GenerateJWT(username string, password string) (string, error) {
+func (a *Auth) GenerateJWT(username string, password string) (string, time.Time, error) {
 	// create a new token
 	token := jwt.New(jwt.SigningMethodEdDSA)
+	expireTime := time.Now().Add(time.Duration(a.expire) * time.Minute)
 
 	// create claims
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Duration(a.expire) * time.Minute)
+	claims["exp"] = expireTime
 	claims["username"] = username
 	claims["password"] = password
 
 	// generate token string
 	tokenString, err := token.SignedString(a.key)
 	if err != nil {
-		return "", err
+		return "", expireTime, err
 	}
 
-	return tokenString, nil
+	return tokenString, expireTime, nil
 }
 
 // ParseJWT gets a token string and extracts the data.
