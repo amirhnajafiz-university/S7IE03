@@ -2,13 +2,13 @@ package handler
 
 import (
 	"errors"
-	"github.com/ceit-aut/policeman/internal/port/http/response"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/ceit-aut/policeman/internal/model"
 	"github.com/ceit-aut/policeman/internal/port/http/request"
+	"github.com/ceit-aut/policeman/internal/port/http/response"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -59,11 +59,20 @@ func (h *Handler) GetAllEndpoints(ctx *fiber.Ctx) error {
 	// create endpoints list
 	var endpoints []response.EndpointResponse
 
-	list, err := h.Repositories.Endpoints.GetAll() {
+	// get all endpoints of a user
+	list := h.Repositories.Endpoints.GetSingle(ctx.Locals("username").(string))
 
+	// create responses
+	for _, item := range list {
+		er := response.EndpointResponse{
+			Address:   item.Url,
+			CreatedAt: item.CreateTime,
+		}
+
+		endpoints = append(endpoints, er)
 	}
 
-	return nil
+	return ctx.JSON(endpoints)
 }
 
 // GetEndpointStatus will return one endpoint status.
