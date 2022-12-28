@@ -44,6 +44,14 @@ func (i *innerWorker) do(endpoint model.Endpoint) {
 	} else {
 		if e := i.repositories.Requests.Insert(*req); e != nil {
 			log.Printf("failed to store request:\n\t%v\n", e)
+		} else {
+			if !(req.Code >= 200 && req.Code < 300) {
+				endpoint.FailedTimes++
+
+				if er := i.repositories.Endpoints.Upsert(endpoint); er != nil {
+					log.Printf("failed to update request: \n\t%v\n", e)
+				}
+			}
 		}
 	}
 }
