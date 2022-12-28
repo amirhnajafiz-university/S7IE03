@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/ceit-aut/policeman/internal/model"
@@ -15,6 +16,7 @@ var (
 	errMaximumEndpoints = errors.New("you have reached the maximum number of endpoints")
 	errEmptyAddress     = errors.New("address cannot be empty")
 	errSaveEndpoint     = errors.New("failed to save endpoint")
+	errRemoveEndpoint   = errors.New("failed to remove endpoint")
 
 	warningMessage = "this endpoint has a lot of errors!"
 	allGoodMessage = "this endpoint is fine."
@@ -78,7 +80,7 @@ func (h *Handler) GetAllEndpoints(ctx *fiber.Ctx) error {
 	// create responses
 	for _, item := range list {
 		er := response.EndpointResponse{
-			Id:        item.ID.String(),
+			Id:        item.ID.Hex(),
 			Address:   item.Url,
 			CreatedAt: item.CreateTime,
 		}
@@ -132,5 +134,11 @@ func (h *Handler) GetEndpointWarnings(ctx *fiber.Ctx) error {
 
 // RemoveUserEndpoint will remove and endpoint.
 func (h *Handler) RemoveUserEndpoint(ctx *fiber.Ctx) error {
-	return nil
+	if err := h.Repositories.Endpoints.Delete(ctx.Locals("id").(string)); err != nil {
+		log.Println(err)
+
+		return errRemoveEndpoint
+	}
+
+	return ctx.SendStatus(http.StatusNoContent)
 }

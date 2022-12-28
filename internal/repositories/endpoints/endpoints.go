@@ -111,7 +111,7 @@ func (r *repository) Insert(endpoint model.Endpoint) (string, error) {
 		return "", err
 	}
 
-	return res.InsertedID.(primitive.ObjectID).String(), nil
+	return res.InsertedID.(primitive.ObjectID).Hex(), nil
 }
 
 // Update on endpoint.
