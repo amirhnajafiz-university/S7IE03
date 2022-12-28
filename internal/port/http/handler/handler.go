@@ -10,7 +10,7 @@ import (
 )
 
 type Handler struct {
-	JWT          auth.Auth
+	JWT          *auth.Auth
 	Repositories repositories.Repositories
 	Threshold    int
 	Limit        int
@@ -22,27 +22,27 @@ func (h *Handler) Health(ctx *fiber.Ctx) error {
 }
 
 // CreateRoutes will generate endpoints of application
-func (h *Handler) CreateRoutes(app *fiber.Group, cfg auth.Config) {
+func (h *Handler) CreateRoutes(app fiber.Router) {
 	// creating middleware
 	mid := middleware.Middleware{
-		Auth: auth.New(cfg),
+		Auth: h.JWT,
 	}
 
 	// status route
 	app.Get("/hlz", h.Health)
 
 	// user routes
-	app.Post("/api/register", h.Register)
-	app.Post("/api/login", h.Login)
+	app.Post("/register", h.Register)
+	app.Post("/login", h.Login)
 
 	app.Use(mid.Authentication)
 
 	// endpoints routes
-	app.Post("/api/endpoints", h.RegisterEndpoint)
-	app.Get("/api/endpoints", h.GetAllEndpoints)
+	app.Post("/endpoints", h.RegisterEndpoint)
+	app.Get("/endpoints", h.GetAllEndpoints)
 
 	app.Use(mid.UserEndpoint)
 
-	app.Get("/api/endpoint/:id", h.GetEndpointStatus)
-	app.Get("/api/endpoint/:id/warnings", h.GetEndpointWarnings)
+	app.Get("/endpoint/:id", h.GetEndpointStatus)
+	app.Get("/endpoint/:id/warnings", h.GetEndpointWarnings)
 }
