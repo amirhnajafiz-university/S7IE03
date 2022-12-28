@@ -11,16 +11,14 @@ import (
 // and updates it status.
 type Worker struct {
 	repositories repositories.Repositories
-	timeout      int
-	workers      int
+	cfg          Config
 }
 
 // New builds a new repositories' struct.
-func New(r repositories.Repositories, timeout int, workers int) *Worker {
+func New(cfg Config, r repositories.Repositories) *Worker {
 	return &Worker{
 		repositories: r,
-		timeout:      timeout,
-		workers:      workers,
+		cfg:          cfg,
 	}
 }
 
@@ -30,7 +28,7 @@ func (w *Worker) Start() error {
 	channel := make(chan model.Endpoint)
 
 	// create a new worker pool
-	newPool(w.workers, channel, w.repositories)
+	newPool(w.cfg.Workers, channel, w.repositories)
 
 	for {
 		// get all endpoints
@@ -41,6 +39,6 @@ func (w *Worker) Start() error {
 			channel <- endpoint
 		}
 
-		time.Sleep(time.Duration(w.timeout) * time.Minute)
+		time.Sleep(time.Duration(w.cfg.Timeout) * time.Minute)
 	}
 }
