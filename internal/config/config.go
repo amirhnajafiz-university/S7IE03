@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"log"
 
+	"github.com/ceit-aut/policeman/internal/storage"
+	"github.com/ceit-aut/policeman/internal/worker"
+	"github.com/ceit-aut/policeman/pkg/auth"
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
@@ -12,6 +15,12 @@ import (
 )
 
 type Config struct {
+	HttpPort      int            `koanf:"http_port"`
+	Threshold     int            `koanf:"threshold"`
+	UserEndpoints int            `koanf:"user_endpoints"`
+	JWT           auth.Config    `koanf:"jwt"`
+	Storage       storage.Config `koanf:"mongodb"`
+	Worker        worker.Config  `koanf:"worker"`
 }
 
 // Load reads configuration with koanf.
