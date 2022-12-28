@@ -11,7 +11,7 @@ import (
 func MakeHTTPRequest(endpoint model.Endpoint) (*model.Request, error) {
 	// create a new http request
 	req := &model.Request{
-		EndpointId: endpoint.ID.String(),
+		EndpointId: endpoint.ID.Hex(),
 		CreateTime: time.Now(),
 	}
 
