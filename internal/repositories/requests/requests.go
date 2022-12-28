@@ -14,6 +14,7 @@ const collectionName = "requests"
 type Repository interface {
 	GetAll(string) []model.Request
 	Insert(model.Request) error
+	Delete(string) error
 }
 
 type repository struct {
@@ -58,6 +59,20 @@ func (r *repository) Insert(request model.Request) error {
 	)
 
 	_, err := collection.InsertOne(ctx, request)
+
+	return err
+}
+
+// Delete all requests.
+func (r *repository) Delete(id string) error {
+	var (
+		ctx    = context.Background()
+		filter = bson.M{"endpoint_id": id}
+
+		collection = r.db.Collection(collectionName)
+	)
+
+	_, err := collection.DeleteMany(ctx, filter)
 
 	return err
 }
