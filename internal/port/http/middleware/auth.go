@@ -8,7 +8,7 @@ import (
 
 // Authentication is used to check users tokens in header.
 func (m *Middleware) Authentication(ctx *fiber.Ctx) error {
-	if token, ok := ctx.GetReqHeaders()["token"]; ok {
+	if token := ctx.Get("token", ""); token != "" {
 		if user, pass, err := m.Auth.ParseJWT(token); err == nil {
 			// set variables into request context
 			ctx.Locals("username", user)
