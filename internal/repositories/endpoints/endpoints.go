@@ -78,11 +78,14 @@ func (r *repository) GetUserEndpoints(username string) []model.Endpoint {
 
 // GetSingle returns one endpoint.
 func (r *repository) GetSingle(id string) *model.Endpoint {
+	// create hex form of object id
+	objectId, _ := primitive.ObjectIDFromHex(id)
+
 	var (
 		endpoint model.Endpoint
 
 		ctx    = context.Background()
-		filter = bson.M{"_id": id}
+		filter = bson.M{"_id": objectId}
 
 		collection = r.db.Collection(collectionName)
 	)
