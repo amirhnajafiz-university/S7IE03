@@ -13,12 +13,12 @@ type Worker struct {
 	Repositories repositories.Repositories
 }
 
-func (w *Worker) Command() *cobra.Command {
+func (w Worker) Command() *cobra.Command {
 	run := func(_ *cobra.Command, _ []string) { w.main() }
 	return &cobra.Command{Use: "worker", Short: "start worker to monitor endpoints", Run: run}
 }
 
-func (w *Worker) main() {
+func (w Worker) main() {
 	// create worker
 	wk := worker.New(w.Cfg, w.Repositories)
 

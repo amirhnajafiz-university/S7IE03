@@ -17,12 +17,12 @@ type HTTP struct {
 	Repositories repositories.Repositories
 }
 
-func (h *HTTP) Command() *cobra.Command {
+func (h HTTP) Command() *cobra.Command {
 	run := func(_ *cobra.Command, _ []string) { h.main() }
 	return &cobra.Command{Use: "http", Short: "start http server", Run: run}
 }
 
-func (h *HTTP) main() {
+func (h HTTP) main() {
 	// create fiber app
 	app := fiber.New()
 
