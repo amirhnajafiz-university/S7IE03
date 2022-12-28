@@ -28,7 +28,7 @@ func New(cfg Config) *Auth {
 // GenerateJWT creates a new JWT token.
 func (a *Auth) GenerateJWT(username string, password string) (string, time.Time, error) {
 	// create a new token
-	token := jwt.New(jwt.SigningMethodEdDSA)
+	token := jwt.New(jwt.SigningMethodHS256)
 	expireTime := time.Now().Add(time.Duration(a.expire) * time.Minute)
 
 	// create claims
@@ -38,7 +38,7 @@ func (a *Auth) GenerateJWT(username string, password string) (string, time.Time,
 	claims["password"] = password
 
 	// generate token string
-	tokenString, err := token.SignedString(a.key)
+	tokenString, err := token.SignedString([]byte(a.key))
 	if err != nil {
 		return "", expireTime, err
 	}

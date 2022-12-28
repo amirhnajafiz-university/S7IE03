@@ -5,7 +5,7 @@ threshold: 20
 user_endpoints: 20
 
 jwt:
-  private_key: "my super secret key"
+  private_key: "mysupersecretkey"
   expire_time: 30
 
 mongodb:
