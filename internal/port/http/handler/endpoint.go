@@ -57,7 +57,7 @@ func (h *Handler) RegisterEndpoint(ctx *fiber.Ctx) error {
 	}
 
 	// save endpoint into database
-	id, err := h.Repositories.Endpoints.Upsert(e)
+	id, err := h.Repositories.Endpoints.Insert(e)
 	if err != nil {
 		log.Println(err)
 

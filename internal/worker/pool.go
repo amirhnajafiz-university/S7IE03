@@ -48,8 +48,8 @@ func (i *innerWorker) do(endpoint model.Endpoint) {
 			if !(req.Code >= 200 && req.Code < 300) {
 				endpoint.FailedTimes++
 
-				if id, er := i.repositories.Endpoints.Upsert(endpoint); er != nil {
-					log.Printf("failed to update request: \n\t%v\n\t%s\n", e, id)
+				if er := i.repositories.Endpoints.Update(endpoint); er != nil {
+					log.Printf("failed to update request: \n\t%v\n", e)
 				}
 			}
 		}
