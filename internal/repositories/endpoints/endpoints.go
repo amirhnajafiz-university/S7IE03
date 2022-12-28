@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/ceit-aut/policeman/internal/model"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -102,8 +103,11 @@ func (r *repository) Insert(endpoint model.Endpoint) (string, error) {
 	)
 
 	res, err := collection.InsertOne(ctx, endpoint)
+	if err != nil {
+		return "", err
+	}
 
-	return res.InsertedID.(string), err
+	return res.InsertedID.(primitive.ObjectID).String(), nil
 }
 
 // Update on endpoint.

@@ -7,7 +7,7 @@ import (
 )
 
 type Endpoint struct {
-	ID          primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	ID          primitive.ObjectID `bson:"_id,omitempty"`
 	Username    string             `bson:"username"`
 	Url         string             `bson:"url"`
 	Threshold   int                `bson:"threshold"`
