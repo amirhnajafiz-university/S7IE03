@@ -15,6 +15,9 @@ import (
 var (
 	errEmptyAddress = errors.New("address cannot be empty")
 	errSaveEndpoint = errors.New("failed to save endpoint")
+
+	warningMessage = "this endpoint has a lot of errors!"
+	allGoodMessage = "this endpoint is fine."
 )
 
 // RegisterEndpoint will add an endpoint to application.
@@ -60,7 +63,7 @@ func (h *Handler) GetAllEndpoints(ctx *fiber.Ctx) error {
 	var endpoints []response.EndpointResponse
 
 	// get all endpoints of a user
-	list := h.Repositories.Endpoints.GetSingle(ctx.Locals("username").(string))
+	list := h.Repositories.Endpoints.GetUserEndpoints(ctx.Locals("username").(string))
 
 	// create responses
 	for _, item := range list {
@@ -81,7 +84,7 @@ func (h *Handler) GetEndpointStatus(ctx *fiber.Ctx) error {
 	var requests []response.EndpointRequest
 
 	// get one endpoint requests
-	list := h.Repositories.Requests.GetAll(ctx.Params("address"))
+	list := h.Repositories.Requests.GetAll(ctx.Locals("id").(string))
 
 	// generate requests response
 	for _, item := range list {
@@ -98,13 +101,20 @@ func (h *Handler) GetEndpointStatus(ctx *fiber.Ctx) error {
 
 // GetEndpointWarnings will return all the warnings for an endpoint.
 func (h *Handler) GetEndpointWarnings(ctx *fiber.Ctx) error {
-	// create warning response
+	// get endpoint
+	ep := h.Repositories.Endpoints.GetSingle(ctx.Locals("id").(string))
+
+	// create response
 	wr := response.Warning{
-		Address: ctx.Params("address"),
+		Address: ep.Url,
 	}
 
-	// get endpoint
-	ep := h.Repositories.Endpoints.GetSingle("")
+	// check the warning
+	if ep.Threshold < ep.FailedTimes {
+		wr.Message = warningMessage
+	} else {
+		wr.Message = allGoodMessage
+	}
 
-	return nil
+	return ctx.JSON(wr)
 }
