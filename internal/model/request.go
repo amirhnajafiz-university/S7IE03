@@ -5,7 +5,7 @@ import (
 )
 
 type Request struct {
-	Url        string    `bson:"url"`
+	EndpointId string    `bson:"endpoint_id"`
 	Code       int       `bson:"result"`
 	CreateTime time.Time `json:"create_time"`
 }
