@@ -1,13 +1,35 @@
 version: '3.9'
 
 services:
-  policeman:
+  http:
     build: .
-    container_name: policeman-container
+    container_name: policeman-http
     ports:
       - "8080:8080"
     networks:
       - policeman
+    volumes:
+      - type: bind
+        source: ./config.yml
+        target: /app/config.yml
+    depends_on:
+      - mongodb
+    command:
+      - ./app/main http
+
+  worker:
+    build: .
+    container_name: policeman-worker
+    networks:
+      - policeman
+    volumes:
+      - type: bind
+        source: ./config.yml
+        target: /app/config.yml
+    depends_on:
+      - mongodb
+    command:
+      - ./app/main worker
 
   mongodb:
     image: mongo:5.0
