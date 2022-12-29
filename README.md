@@ -112,10 +112,6 @@ type Request struct {
 
 ## Endpoints
 
-To make HTTP calls to our HTTP server, use the following endpoints.
-
-
-
 ## Docker
 
 Use **docker-compose** to run everything on docker.
