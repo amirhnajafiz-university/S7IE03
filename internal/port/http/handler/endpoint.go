@@ -39,7 +39,7 @@ func (h *Handler) RegisterEndpoint(ctx *fiber.Ctx) error {
 
 	// parse user request
 	if err := ctx.BodyParser(&userReq); err != nil {
-		log.Println(err)
+		log.Printf("parse error:\n\t%v\n", err)
 
 		return errParsingFailed
 	}
@@ -61,7 +61,7 @@ func (h *Handler) RegisterEndpoint(ctx *fiber.Ctx) error {
 	// save endpoint into database
 	id, err := h.Repositories.Endpoints.Insert(e)
 	if err != nil {
-		log.Println(err)
+		log.Printf("failed to save into databse:\n\t%v\n", err)
 
 		return errSaveEndpoint
 	}
@@ -135,11 +135,12 @@ func (h *Handler) GetEndpointWarnings(ctx *fiber.Ctx) error {
 // RemoveUserEndpoint will remove and endpoint.
 func (h *Handler) RemoveUserEndpoint(ctx *fiber.Ctx) error {
 	if err := h.Repositories.Endpoints.Delete(ctx.Locals("id").(string)); err != nil {
-		log.Println(err)
+		log.Printf("failed to remove endpoint:\n\t%v\n", err)
 
 		return errRemoveEndpoint
 	}
 
+	// remove all requests for endpoint
 	go func() {
 		_ = h.Repositories.Requests.Delete(ctx.Locals("id").(string))
 	}()

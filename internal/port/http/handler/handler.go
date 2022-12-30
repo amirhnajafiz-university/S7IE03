@@ -22,7 +22,7 @@ func (h *Handler) Health(ctx *fiber.Ctx) error {
 }
 
 // CreateRoutes will generate endpoints of application
-func (h *Handler) CreateRoutes(app fiber.Router) {
+func (h *Handler) CreateRoutes(api fiber.Router) {
 	// creating middleware
 	mid := middleware.Middleware{
 		Repositories: h.Repositories,
@@ -30,19 +30,19 @@ func (h *Handler) CreateRoutes(app fiber.Router) {
 	}
 
 	// status route
-	app.Get("/hlz", h.Health)
+	api.Get("/hlz", h.Health)
 
 	// user routes
-	app.Post("/register", h.Register)
-	app.Post("/login", h.Login)
+	api.Post("/register", h.Register)
+	api.Post("/login", h.Login)
 
-	app.Use(mid.Authentication)
+	api.Use(mid.Authentication)
 
 	// endpoints routes
-	app.Post("/endpoints", h.RegisterEndpoint)
-	app.Get("/endpoints", h.GetAllEndpoints)
+	api.Post("/endpoints", h.RegisterEndpoint)
+	api.Get("/endpoints", h.GetAllEndpoints)
 
-	v1 := app.Group("/endpoint/:id")
+	v1 := api.Group("/endpoint/:id")
 
 	v1.Use(mid.UserEndpoint)
 
