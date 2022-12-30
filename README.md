@@ -110,7 +110,124 @@ type Request struct {
 }
 ```
 
-## Endpoints
+## HTTP requests
+
+### User
+
+#### Register
+
+```shell
+curl --request POST \
+  --url http://localhost:8080/api/register \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"username": "amirhossein",
+	"password": "amirhossein"
+}'
+```
+
+```shell
+OK
+```
+
+#### Login
+
+```shell
+curl --request POST \
+  --url http://localhost:8080/api/login \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"username": "amirhossein",
+	"password": "amirhossein"
+}'
+```
+
+```json
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIyNjY5NDEsInBhc3N3b3JkIjoiJDJhJDEwJHlIQ3cueDQvU0M0N3BOTjhIY3VmS084M3A4eWpiNXhqVkJyZnYzVldDMm9hV0NmQjdVZXZ1IiwidXNlcm5hbWUiOiJhbWlyaG9zc2VpbiJ9.12pVs9ncLM4EfaHH4GkEoi44Zz4x6aqTc0T17XBFBiE",
+	"expires": "2022-12-29T02:05:41.848018+03:30"
+}
+```
+
+### Endpoint
+
+#### Register
+
+```shell
+curl --request POST \
+  --url http://localhost:8080/api/endpoints \
+  --header 'Content-Type: application/json' \
+  --header 'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIyNjUwODMsInBhc3N3b3JkIjoiJDJhJDEwJHlIQ3cueDQvU0M0N3BOTjhIY3VmS084M3A4eWpiNXhqVkJyZnYzVldDMm9hV0NmQjdVZXZ1IiwidXNlcm5hbWUiOiJhbWlyaG9zc2VpbiJ9.VS3XydzeLovP7DLfVrn9B4fkDv0PnZuuzPlY2JNFOVc' \
+  --data '{
+	"address": "https://bale.ai"
+}'
+```
+
+```shell
+63acbac72a7a235b16a5e228
+```
+
+#### Get endpoints
+
+```shell
+curl --request GET \
+  --url http://localhost:8080/api/endpoints \
+  --header 'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIyNjY5NDEsInBhc3N3b3JkIjoiJDJhJDEwJHlIQ3cueDQvU0M0N3BOTjhIY3VmS084M3A4eWpiNXhqVkJyZnYzVldDMm9hV0NmQjdVZXZ1IiwidXNlcm5hbWUiOiJhbWlyaG9zc2VpbiJ9.12pVs9ncLM4EfaHH4GkEoi44Zz4x6aqTc0T17XBFBiE'
+```
+
+```json
+[
+	{
+		"id": "63acbac72a7a235b16a5e228",
+		"address": "https://bale.ai",
+		"created_at": "2022-12-28T21:53:11.199Z"
+	}
+]
+```
+
+#### Get requests of endpoint
+
+```shell
+curl --request GET \
+  --url http://localhost:8080/api/endpoint/63acbac72a7a235b16a5e228 \
+  --header 'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIyNjY5NDEsInBhc3N3b3JkIjoiJDJhJDEwJHlIQ3cueDQvU0M0N3BOTjhIY3VmS084M3A4eWpiNXhqVkJyZnYzVldDMm9hV0NmQjdVZXZ1IiwidXNlcm5hbWUiOiJhbWlyaG9zc2VpbiJ9.12pVs9ncLM4EfaHH4GkEoi44Zz4x6aqTc0T17XBFBiE'
+```
+
+```json
+[
+	{
+		"status": 504,
+		"time": "2022-12-28T22:14:33.035Z"
+	},
+	{
+		"status": 200,
+		"time": "2022-12-28T22:14:33.035Z"
+	}
+]
+```
+
+#### Get endpoint warnings
+
+```shell
+curl --request GET \
+  --url http://localhost:8080/api/endpoint/63acba882a7a235b16a5e227/warnings \
+  --header 'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIyNjY5NDEsInBhc3N3b3JkIjoiJDJhJDEwJHlIQ3cueDQvU0M0N3BOTjhIY3VmS084M3A4eWpiNXhqVkJyZnYzVldDMm9hV0NmQjdVZXZ1IiwidXNlcm5hbWUiOiJhbWlyaG9zc2VpbiJ9.12pVs9ncLM4EfaHH4GkEoi44Zz4x6aqTc0T17XBFBiE'
+```
+
+```json
+{
+	"address": "http://snapp.ir",
+	"message": "this endpoint is fine."
+}
+```
+
+#### Remove endpoint
+
+```shell
+curl --request DELETE \
+  --url http://localhost:8080/api/endpoint/000000000000000000000000 \
+  --header 'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIyNjY5NDEsInBhc3N3b3JkIjoiJDJhJDEwJHlIQ3cueDQvU0M0N3BOTjhIY3VmS084M3A4eWpiNXhqVkJyZnYzVldDMm9hV0NmQjdVZXZ1IiwidXNlcm5hbWUiOiJhbWlyaG9zc2VpbiJ9.12pVs9ncLM4EfaHH4GkEoi44Zz4x6aqTc0T17XBFBiE'
+```
 
 ## Docker
 
