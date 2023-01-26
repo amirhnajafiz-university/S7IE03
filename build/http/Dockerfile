@@ -17,4 +17,4 @@ WORKDIR /app/
 
 COPY --from=builder /main .
 
-CMD ["./main", "http"]
+CMD ./main http
