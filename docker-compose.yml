@@ -2,7 +2,8 @@ version: '3.9'
 
 services:
   http:
-    build: ./build/http
+    build:
+     dockerfile: ./build/http/Dockerfile
     container_name: policeman-http
     ports:
       - "8080:8080"
@@ -16,7 +17,8 @@ services:
       - worker
 
   worker:
-    build: ./build/worker
+    build:
+     dockerfile: ./build/worker/Dockerfile
     container_name: policeman-worker
     networks:
       - policeman
