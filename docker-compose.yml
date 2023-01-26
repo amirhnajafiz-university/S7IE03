@@ -15,7 +15,7 @@ services:
         source: ./config.yml
         target: /app/config.yml
     depends_on:
-      - worker
+      - mongodb
 
   worker:
     build:
@@ -29,7 +29,7 @@ services:
         source: ./config.yml
         target: /app/config.yml
     depends_on:
-      - mongodb
+      - http
 
   mongodb:
     image: mongo:5.0
@@ -40,7 +40,7 @@ services:
       - mongodb:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=pa$$word
+      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
     networks:
       - policeman
 
