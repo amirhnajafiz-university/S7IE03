@@ -15,7 +15,7 @@ services:
     depends_on:
       - mongodb
     command:
-      - ./app/main http
+      - ./main http
 
   worker:
     build: .
@@ -29,7 +29,7 @@ services:
     depends_on:
       - mongodb
     command:
-      - ./app/main worker
+      - ./main worker
 
   mongodb:
     image: mongo:5.0
