@@ -16,10 +16,7 @@ func MakeHTTPRequest(endpoint model.Endpoint) (*model.Request, error) {
 	}
 
 	// make http request
-	resp, err := http.Get(endpoint.Url)
-	if err != nil {
-		return nil, err
-	}
+	resp, _ := http.Get(endpoint.Url)
 
 	req.Code = resp.StatusCode
 
