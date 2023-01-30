@@ -18,9 +18,6 @@ var (
 	errEmptyAddress     = errors.New("address cannot be empty")
 	errSaveEndpoint     = errors.New("failed to save endpoint")
 	errRemoveEndpoint   = errors.New("failed to remove endpoint")
-
-	warningMessage = "this endpoint has a lot of errors!"
-	allGoodMessage = "this endpoint is fine."
 )
 
 // RegisterEndpoint will add an endpoint to application.
@@ -111,26 +108,6 @@ func (h *Handler) GetEndpointStatus(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.JSON(requests)
-}
-
-// GetEndpointWarnings will return all the warnings for an endpoint.
-func (h *Handler) GetEndpointWarnings(ctx *fiber.Ctx) error {
-	// get endpoint
-	ep := h.Repositories.Endpoints.GetSingle(ctx.Locals("id").(string))
-
-	// create response
-	wr := response.Warning{
-		Address: ep.Url,
-	}
-
-	// check the warning
-	if ep.Threshold < ep.FailedTimes {
-		wr.Message = warningMessage
-	} else {
-		wr.Message = allGoodMessage
-	}
-
-	return ctx.JSON(wr)
 }
 
 // RemoveUserEndpoint will remove and endpoint.
