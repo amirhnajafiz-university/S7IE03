@@ -48,6 +48,6 @@ func (h *Handler) CreateRoutes(api fiber.Router) {
 	v1.Use(mid.UserEndpoint)
 
 	v1.Get("/", h.GetEndpointStatus)
-	v1.Get("/warnings", h.GetEndpointWarnings)
+	v1.Get("/alerts", h.GetAlerts)
 	v1.Delete("/", h.RemoveUserEndpoint)
 }

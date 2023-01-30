@@ -206,11 +206,11 @@ curl --request GET \
 ]
 ```
 
-#### Get endpoint warnings
+#### Get endpoint alerts
 
 ```shell
 curl --request GET \
-  --url http://localhost:8080/api/endpoint/63acba882a7a235b16a5e227/warnings \
+  --url http://localhost:8080/api/endpoint/63acba882a7a235b16a5e227/alerts \
   --header 'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIyNjY5NDEsInBhc3N3b3JkIjoiJDJhJDEwJHlIQ3cueDQvU0M0N3BOTjhIY3VmS084M3A4eWpiNXhqVkJyZnYzVldDMm9hV0NmQjdVZXZ1IiwidXNlcm5hbWUiOiJhbWlyaG9zc2VpbiJ9.12pVs9ncLM4EfaHH4GkEoi44Zz4x6aqTc0T17XBFBiE'
 ```
 
