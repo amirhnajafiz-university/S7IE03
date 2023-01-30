@@ -14,5 +14,5 @@ mongodb:
   port: 27017
 
 worker:
-  timeout: 2
+  timeout: 20
   workers: 5

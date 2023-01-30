@@ -49,7 +49,7 @@ mongodb:
   port: 27017
 # worker options
 worker:
-  timeout: 2
+  timeout: 2 # seconds
   workers: 5
 ```
 

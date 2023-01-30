@@ -39,6 +39,6 @@ func (w *Worker) Start() error {
 			channel <- endpoint
 		}
 
-		time.Sleep(time.Duration(w.cfg.Timeout) * time.Minute)
+		time.Sleep(time.Duration(w.cfg.Timeout) * time.Second)
 	}
 }
