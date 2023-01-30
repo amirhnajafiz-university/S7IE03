@@ -1,9 +1,9 @@
 package config
 
 import (
-	"github.com/ceit-aut/policeman/internal/storage"
-	"github.com/ceit-aut/policeman/internal/worker"
-	"github.com/ceit-aut/policeman/pkg/auth"
+	"github.com/ceit-aut/S7IE03/internal/storage"
+	"github.com/ceit-aut/S7IE03/internal/worker"
+	"github.com/ceit-aut/S7IE03/pkg/auth"
 )
 
 func Default() Config {

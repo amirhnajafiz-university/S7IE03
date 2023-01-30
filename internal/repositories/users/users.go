@@ -3,7 +3,8 @@ package users
 import (
 	"context"
 
-	"github.com/ceit-aut/policeman/internal/model"
+	"github.com/ceit-aut/S7IE03/internal/model"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )

@@ -1,4 +1,4 @@
-module github.com/ceit-aut/policeman
+module github.com/ceit-aut/S7IE03
 
 go 1.19
 

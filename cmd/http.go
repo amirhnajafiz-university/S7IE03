@@ -3,10 +3,11 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/ceit-aut/policeman/internal/config"
-	"github.com/ceit-aut/policeman/internal/port/http/handler"
-	"github.com/ceit-aut/policeman/internal/repositories"
-	"github.com/ceit-aut/policeman/pkg/auth"
+	"github.com/ceit-aut/S7IE03/internal/config"
+	"github.com/ceit-aut/S7IE03/internal/port/http/handler"
+	"github.com/ceit-aut/S7IE03/internal/repositories"
+	"github.com/ceit-aut/S7IE03/pkg/auth"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/cobra"
 )

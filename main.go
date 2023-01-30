@@ -3,11 +3,12 @@ package main
 import (
 	"log"
 
-	"github.com/ceit-aut/policeman/cmd"
-	"github.com/ceit-aut/policeman/internal/config"
-	"github.com/ceit-aut/policeman/internal/repositories"
-	"github.com/ceit-aut/policeman/internal/storage"
-	"github.com/ceit-aut/policeman/pkg/auth"
+	"github.com/ceit-aut/S7IE03/cmd"
+	"github.com/ceit-aut/S7IE03/internal/config"
+	"github.com/ceit-aut/S7IE03/internal/repositories"
+	"github.com/ceit-aut/S7IE03/internal/storage"
+	"github.com/ceit-aut/S7IE03/pkg/auth"
+
 	"github.com/spf13/cobra"
 )
 

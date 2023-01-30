@@ -3,9 +3,9 @@ package worker
 import (
 	"log"
 
-	"github.com/ceit-aut/policeman/internal/client"
-	"github.com/ceit-aut/policeman/internal/model"
-	"github.com/ceit-aut/policeman/internal/repositories"
+	"github.com/ceit-aut/S7IE03/internal/client"
+	"github.com/ceit-aut/S7IE03/internal/model"
+	"github.com/ceit-aut/S7IE03/internal/repositories"
 )
 
 // innerWorker manages to do the tasks.

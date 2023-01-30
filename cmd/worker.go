@@ -3,8 +3,9 @@ package cmd
 import (
 	"log"
 
-	"github.com/ceit-aut/policeman/internal/repositories"
-	"github.com/ceit-aut/policeman/internal/worker"
+	"github.com/ceit-aut/S7IE03/internal/repositories"
+	"github.com/ceit-aut/S7IE03/internal/worker"
+
 	"github.com/spf13/cobra"
 )
 

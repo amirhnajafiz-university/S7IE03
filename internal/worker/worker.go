@@ -3,8 +3,8 @@ package worker
 import (
 	"time"
 
-	"github.com/ceit-aut/policeman/internal/model"
-	"github.com/ceit-aut/policeman/internal/repositories"
+	"github.com/ceit-aut/S7IE03/internal/model"
+	"github.com/ceit-aut/S7IE03/internal/repositories"
 )
 
 // Worker handles to check endpoints to monitor them

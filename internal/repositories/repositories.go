@@ -1,9 +1,10 @@
 package repositories
 
 import (
-	"github.com/ceit-aut/policeman/internal/repositories/endpoints"
-	"github.com/ceit-aut/policeman/internal/repositories/requests"
-	"github.com/ceit-aut/policeman/internal/repositories/users"
+	"github.com/ceit-aut/S7IE03/internal/repositories/endpoints"
+	"github.com/ceit-aut/S7IE03/internal/repositories/requests"
+	"github.com/ceit-aut/S7IE03/internal/repositories/users"
+
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

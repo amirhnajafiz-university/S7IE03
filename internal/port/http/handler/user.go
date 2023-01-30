@@ -5,10 +5,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ceit-aut/policeman/internal/model"
-	"github.com/ceit-aut/policeman/internal/port/http/request"
-	"github.com/ceit-aut/policeman/internal/port/http/response"
-	"github.com/ceit-aut/policeman/pkg/crypto"
+	"github.com/ceit-aut/S7IE03/internal/model"
+	"github.com/ceit-aut/S7IE03/internal/port/http/request"
+	"github.com/ceit-aut/S7IE03/internal/port/http/response"
+	"github.com/ceit-aut/S7IE03/pkg/crypto"
+
 	"github.com/gofiber/fiber/v2"
 )
 
