@@ -50,6 +50,14 @@ func (r *repository) GetAll(id string) []model.Alert {
 	return alerts
 }
 
+// Insert a new alert.
 func (r *repository) Insert(alert model.Alert) error {
+	var (
+		ctx        = context.Background()
+		collection = r.db.Collection(collectionName)
+	)
 
+	_, err := collection.InsertOne(ctx, alert)
+
+	return err
 }
